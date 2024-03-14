@@ -1,0 +1,92 @@
+import re
+registro_usuarios = []
+registro_senhas = []
+senha = 1
+senha_acesso = 2
+
+while senha_acesso != senha:
+    try:
+        acesso_inicial = input('\033[0mOlá, seja muito bem ao Infinity App, este é seu primeiro acesso? (SIM ou NAO): ').upper()
+        while acesso_inicial != "SIM" and acesso_inicial != "NAO":
+            acesso_inicial = input('Este é seu primeiro acesso? (RESPONDA SIM ou NAO): ').upper()
+        if acesso_inicial == "SIM":
+            while True:
+                usuario = input('\033[0mCadastre seu usuário: ').upper()
+                confirma_usuario = input ('Por favor, confirme seu usuario: ').upper()
+                if usuario == confirma_usuario:
+                    break
+                else:
+                    print('\033[91musuários não coincidem')
+
+            print('''\033[0mCadastre aqui sua senha com os seguintes critérios:"
+                *Conter 8 digitos
+                *Ao menos uma letra MAIÚSCULA
+                *Ao menos uma letra minúscula
+                *Ao menos um número
+                *Ao menos um caractere especial(!@#$%¨&*)''')
+
+            while True:
+                while True:
+                    senha = input("\033[0mDigite sua senha : ")
+                    senha_ok = True
+                    if not re.search(r'.{8}', senha ):
+                        print('\033[91mA senha precisa conter 8 caracteres')
+                        senha_ok = False
+                    if re.search(r'.{9}', senha ):
+                        print('\033[91mA senha precisa conter 8 caracteres')
+                        senha_ok = False
+                    if not re.search(r'[A-Z]', senha):
+                        print ('\033[91mA senha precisa conter, ao menos, uma letra maiúscula')
+                        senha_ok = False
+                    if not re.search(r'[a-z]', senha):
+                        print ('\033[91mA senha precisa conter, ao menos, uma letra minúscula')
+                        senha_ok = False
+                    if not re.search(r'[!@#$%¨&*]', senha):
+                        print ('\033[91mA senha precisa conter, ao menos, um caractere especial')
+                        senha_ok = False
+                    if not re.search(r'\d', senha):
+                        print ('\033[91mA senha precisa conter, ao menos, um numero')
+                        senha_ok = False
+                    #senha = input("Digite novamente sua senha : ")
+                    if senha_ok==True:
+                        registro_senhas.append(senha)
+                        break
+                    else:
+                        continue
+                        
+                ConfirmaSenha = input('\033[0mPor favor, por segurança, confirme sua senha: ')
+                if ConfirmaSenha == senha:
+                    #print ('Cadastro realizado com sucesso, agora poderá efetuar login.')
+                    break
+                else:
+                    print ('\033[91mAs senhas não são iguais, reveja o cadastro cadastro.')
+
+            print("\033[92mSenha cadastrada com sucesso!")
+
+        print("\033[0m-"*54)
+
+        print(''''\033[0mBem vindo à tela de acesso
+                Efetue seu Login''')
+
+        print("\033[0m-"*54)
+
+        usuario_acesso = input('\033[0mUsuário: ').upper()
+        if usuario_acesso == usuario:
+            #print(usuario, "/", usuario_acesso)
+            #for in range (3):
+            for i in range(3):
+                senha_acesso = input('\033[0mSenha: ')
+                if senha_acesso == senha:
+                    print(f'\033[92mSeja muito bem vindo Sr. {usuario}')
+                    #print(usuario, "/", usuario_acesso)
+                    break
+                elif senha_acesso != senha:
+                    #print(usuario, "/", usuario_acesso)
+                    print('\033[91mSenha incorreta, tente novamente.')
+            else:
+                print('\033[91mNúmero máximo de tentativas excedido, recadastre sua tenha ou tente novamente.')
+        elif usuario_acesso != usuario:
+            #print(usuario, "/", usuario_acesso)
+            print('\033[91mUsuário não cadastrado, volte a tela inicial')              
+    except NameError:
+        print('\033[91mUsuário não cadastrado, favor recomeçar.')
